@@ -145,22 +145,41 @@ export class TramSystem implements ISystem {
 
     this.orientation = orientation
 
+    let tram1Position: Vector3
+    let tram2Position: Vector3
+
+    let station1Position: Vector3
+    let station2Position: Vector3
+    let station3Position: Vector3
+
+    if (orientation == RoadOrientation.horizontal) {
+      tram1Position = new Vector3(16, 0, 22.5)
+      tram2Position = new Vector3(16, 0, 9.5)
+      station1Position = new Vector3(16, 0, 34.05)
+      station3Position = new Vector3(16 + this.distance, 0, 34.05)
+    } else {
+      tram1Position = new Vector3(22.5, 0, 16)
+      tram2Position = new Vector3(9.5, 0, 16)
+      station1Position = new Vector3(34.05, 0, 16)
+      station3Position = new Vector3(34.05, 0, 16 + this.distance)
+    }
+
     this.tram1 = new Tram(
       {
-        position: new Vector3(22.5, 0, 16),
+        position: tram1Position,
       },
       this.orientation
     )
 
     this.tram2 = new Tram(
       {
-        position: new Vector3(9.5, 0, 16),
+        position: tram2Position,
       },
       this.orientation
     )
 
     let startStation = new Station(
-      { position: new Vector3(34.05, 0, 16) },
+      { position: station1Position },
       this.orientation,
       [0 + this.waitTime],
       this.cycleTime
@@ -170,7 +189,10 @@ export class TramSystem implements ISystem {
     for (let i = 2; i < this.stationCount; i++) {
       let middleStation = new Station(
         {
-          position: new Vector3(34.05, 0, 16 + this.distance / (stations - 1)),
+          position:
+            this.orientation == RoadOrientation.horizontal
+              ? new Vector3(16 + this.distance / (stations - 1), 0, 34.05)
+              : new Vector3(34.05, 0, 16 + this.distance / (stations - 1)),
         },
         this.orientation,
         [
@@ -183,7 +205,7 @@ export class TramSystem implements ISystem {
     }
 
     let endStation = new Station(
-      { position: new Vector3(34.05, 0, 16 + this.distance) },
+      { position: station3Position },
       this.orientation,
       [this.cycleTime / 2 + this.waitTime],
       this.cycleTime
@@ -222,8 +244,6 @@ export class TramSystem implements ISystem {
     log('SEGMENTS: ', this.segments)
   }
 }
-
-engine.addSystem(new TramSystem(180, 10, 3, RoadOrientation.vertical, 56))
 
 // Tram Logic:
 // cylcle time 2 minutes

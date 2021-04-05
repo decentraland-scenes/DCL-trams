@@ -52,10 +52,11 @@ export class Station extends Entity {
     this.cycleTime = cycleTime
 
     if (Orientation == RoadOrientation.horizontal) {
-      this.getComponent(Transform).rotation = Quaternion.Euler(0, 90, 0)
-      this.getComponent(Transform).position.z += 5
+      this.getComponent(Transform).rotation = Quaternion.Euler(0, 270, 0)
+      this.getComponent(Transform).position.z -= 5
     } else {
       this.getComponent(Transform).position.x -= 5
+      //this.getComponent(Transform).rotation = Quaternion.Euler(0, 270, 0)
     }
 
     let windows = new Entity()
@@ -146,10 +147,10 @@ export class Station extends Entity {
     if (Orientation == RoadOrientation.horizontal) {
       this.station2.getComponent(Transform).rotation = Quaternion.Euler(
         0,
-        270,
+        90,
         0
       )
-      this.station2.getComponent(Transform).position.z = 2.95
+      this.station2.getComponent(Transform).position.z = 1.95
     } else {
       this.station2.getComponent(Transform).rotation = Quaternion.Euler(
         0,
@@ -160,6 +161,9 @@ export class Station extends Entity {
     }
 
     this.station2.addComponent(stationShape)
+    if (Orientation == RoadOrientation.horizontal) {
+      this.station2.getComponent(Transform).position.z += 1
+    }
     engine.addEntity(this.station2)
 
     let windows2 = new Entity()

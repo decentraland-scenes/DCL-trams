@@ -1,7 +1,20 @@
 import { RoadOrientation } from './station'
 
-let tramShape = new GLTFShape('models/trams/popart_tram.glb')
-let tramWindowShape = new GLTFShape('models/trams/popart_windows.glb')
+let tramShape: GLTFShape
+let tramWindowShape: GLTFShape
+
+export enum TranType {
+  chinese = 'models/trams/chinese_tram',
+  forest = 'models/trams/forest_tram',
+  genesis = 'models/trams/genesis_tram',
+  pop = 'models/trams/popart_tram',
+  scifi = 'models/trams/scifi_tram',
+}
+
+export function setTramType(type: TranType) {
+  tramShape = new GLTFShape(type + '.glb')
+  tramWindowShape = new GLTFShape(type + '_windows.glb')
+}
 
 export class Tram extends Entity {
   orientation: RoadOrientation

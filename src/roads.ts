@@ -54,7 +54,7 @@ export function addRoad(
               ? i == 1
                 ? Quaternion.Euler(0, 180, 0)
                 : Quaternion.Zero()
-              : j == 1
+              : i == 1
               ? Quaternion.Euler(0, 90, 0)
               : Quaternion.Euler(0, 270, 0),
         })
@@ -82,6 +82,13 @@ export function addRoad(
           case RoadType.WROADLEFT1:
             if (i == 1) {
               tile.addComponent(singleCornerShape)
+              if (orientation == RoadOrientation.horizontal) {
+                tile.getComponent(Transform).rotation = Quaternion.Euler(
+                  0,
+                  180,
+                  0
+                )
+              }
             } else {
               tile.addComponent(tileShape)
             }
@@ -89,7 +96,10 @@ export function addRoad(
           case RoadType.WROADLEFT2:
             if (i == 1) {
               tile.addComponent(singleCornerShape)
-              tile.getComponent(Transform).rotate(yaXis, 90)
+
+              if (orientation == RoadOrientation.vertical) {
+                tile.getComponent(Transform).rotate(yaXis, 90)
+              }
             } else {
               tile.addComponent(tileShape)
             }
@@ -97,15 +107,19 @@ export function addRoad(
           case RoadType.WROADRIGHT1:
             if (i == 2) {
               tile.addComponent(singleCornerShape)
-              tile.getComponent(Transform).rotation = Quaternion.Euler(0, 90, 0)
-              log(
-                'rotating: ',
-                i,
-                ' , ',
-                j,
-                ', ',
-                tile.getComponent(Transform).rotation.eulerAngles
-              )
+              if (orientation == RoadOrientation.vertical) {
+                tile.getComponent(Transform).rotation = Quaternion.Euler(
+                  0,
+                  90,
+                  0
+                )
+              } else {
+                tile.getComponent(Transform).rotation = Quaternion.Euler(
+                  0,
+                  270,
+                  0
+                )
+              }
             } else {
               tile.addComponent(tileShape)
             }
@@ -113,6 +127,9 @@ export function addRoad(
           case RoadType.WROADRIGHT2:
             if (i == 2) {
               tile.addComponent(singleCornerShape)
+              if (orientation == RoadOrientation.horizontal) {
+                tile.getComponent(Transform).rotate(yaXis, 90)
+              }
             } else {
               tile.addComponent(tileShape)
             }
@@ -120,29 +137,35 @@ export function addRoad(
           case RoadType.WROADBOTH1:
             tile.addComponent(singleCornerShape)
             if (i == 2) {
-              tile.getComponent(Transform).rotation = Quaternion.Euler(0, 90, 0)
-              log(
-                'rotating: ',
-                i,
-                ' , ',
-                j,
-                ', ',
-                tile.getComponent(Transform).rotation.eulerAngles
+              if (orientation == RoadOrientation.vertical) {
+                tile.getComponent(Transform).rotation = Quaternion.Euler(
+                  0,
+                  90,
+                  0
+                )
+              } else {
+                tile.getComponent(Transform).rotation = Quaternion.Euler(
+                  0,
+                  270,
+                  0
+                )
+              }
+            } else if (orientation == RoadOrientation.horizontal) {
+              tile.getComponent(Transform).rotation = Quaternion.Euler(
+                0,
+                180,
+                0
               )
             }
             break
           case RoadType.WROADBOTH2:
             tile.addComponent(singleCornerShape)
             if (i == 1) {
+              if (orientation == RoadOrientation.vertical) {
+                tile.getComponent(Transform).rotate(yaXis, 90)
+              }
+            } else if (orientation == RoadOrientation.horizontal) {
               tile.getComponent(Transform).rotate(yaXis, 90)
-              log(
-                'rotating: ',
-                i,
-                ' , ',
-                j,
-                ', ',
-                tile.getComponent(Transform).rotation.eulerAngles
-              )
             }
             break
           case RoadType.STATION:

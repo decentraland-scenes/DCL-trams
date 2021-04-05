@@ -1,11 +1,14 @@
 import { addRoad, RoadType } from './roads'
 import { TramSystem } from './scheduler'
 import { RoadOrientation } from './station'
+import { setTramType, TranType } from './tram'
 
 Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
   log(`pos: `, Camera.instance.position)
   log(`rot: `, Camera.instance.rotation)
 })
+
+let sceneOrientation: RoadOrientation = RoadOrientation.vertical
 
 let exceptions: RoadType[] = []
 
@@ -26,7 +29,9 @@ exceptions[53] = RoadType.ROADRIGHT
 exceptions[56] = RoadType.ROADRIGHT
 exceptions[59] = RoadType.ROADRIGHT
 
-addRoad(58, RoadOrientation.vertical, exceptions)
+setTramType(TranType.forest)
+
+addRoad(58, sceneOrientation, exceptions)
 
 // Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, true, (e) => {
 //   if (e.hit) {
@@ -36,3 +41,5 @@ addRoad(58, RoadOrientation.vertical, exceptions)
 //     )
 //   }
 // })
+
+engine.addSystem(new TramSystem(180, 10, 3, sceneOrientation, 56))
