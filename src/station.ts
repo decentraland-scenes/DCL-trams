@@ -263,14 +263,16 @@ export class Station extends Entity {
 
   updateTimers(time: number) {
     let timeLeft = this.arrivalTimes[0] - time
+    if (timeLeft < 0) {
+      timeLeft += this.cycleTime
+    }
     if (this.arrivalTimes.length > 1) {
       if (this.arrivalTimes[1] - time < timeLeft) {
         timeLeft = this.arrivalTimes[1] - time
+        if (timeLeft < 0) {
+          timeLeft += this.cycleTime
+        }
       }
-    }
-
-    if (timeLeft < 0) {
-      timeLeft += this.cycleTime
     }
 
     let numberText = secondsToText(timeLeft)
@@ -281,7 +283,12 @@ export class Station extends Entity {
     this.timer4.getComponent(TextShape).value = numberText
 
     if (this.station2) {
-      let timeLeftTram2 = (timeLeft + this.cycleTime / 2) % this.cycleTime
+      let timeLeftTram2: number
+      if (this.arrivalTimes.length > 1) {
+        timeLeftTram2 = timeLeft
+      } else {
+        timeLeftTram2 = (timeLeft + this.cycleTime / 2) % this.cycleTime
+      }
 
       let numberText2 = secondsToText(timeLeftTram2)
 
