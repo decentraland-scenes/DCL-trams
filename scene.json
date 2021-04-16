@@ -1,7 +1,10 @@
 {
   "display": {
     "title": "interactive-text",
+    "description":"Decentraland's public transport system",
+    "navmapThumbnail":"screenshot/screenshot.png",
     "favicon": "favicon_asset"
+
   },
   "contact": {
     "name": "author-name",

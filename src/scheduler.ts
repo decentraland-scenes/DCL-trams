@@ -37,6 +37,7 @@ type trackSegment = {
 
 export class TramSystem implements ISystem {
   time: number = 0
+  millisecondsTimer: number =0
   cycleTime: number
   waitTime: number
   stationCount: number
@@ -55,6 +56,7 @@ export class TramSystem implements ISystem {
   }
   async update(dt: number) {
     this.time += dt
+    this.millisecondsTimer += dt
 
     let currentSegment = 0
     let extraPortion = 0
@@ -89,18 +91,7 @@ export class TramSystem implements ISystem {
     let distanceFromStart =
       segment.start + extraPortion * (segment.end - segment.start)
 
-    // log(
-    //   'CURRENT SG:',
-    //   currentSegment,
-    //   'PORTION: ',
-    //   extraPortion,
-    //   ' DIST: ',
-    //   distanceFromStart,
-    //   ' TIME: ',
-    //   this.time
-    // )
-
-    //log('time: ', this.time, 'distance: ', distanceFromStart)
+ 
 
     if (extraPortion == 0) {
       this.tram1.stopSound()
@@ -123,11 +114,15 @@ export class TramSystem implements ISystem {
         this.distance - distanceFromStart + this.initialOffset * 2
     }
 
-    for (let station of this.stations) {
-      if (station.active) {
-        station.updateTimers(this.time)
+    if(this.millisecondsTimer > 1){
+      this.millisecondsTimer = 0
+      for (let station of this.stations) {
+        if (station.active) {
+          station.updateTimers(this.time)
+        }
       }
     }
+  
   }
   constructor(
     cycleTime: number,
@@ -181,7 +176,8 @@ export class TramSystem implements ISystem {
     let startStation = new Station(
       { position: station1Position },
       this.orientation,
-      [0 + this.waitTime],
+      [0 +  this.waitTime],
+      this.waitTime,
       this.cycleTime
     )
     this.stations.push(startStation)
@@ -196,9 +192,10 @@ export class TramSystem implements ISystem {
         },
         this.orientation,
         [
-          this.cycleTime / 4 + this.waitTime,
-          (this.cycleTime / 4) * 3 + this.waitTime,
+          this.cycleTime / 4+  this.waitTime,
+          (this.cycleTime / 4) * 3 +  this.waitTime,
         ],
+        this.waitTime,
         this.cycleTime
       )
       this.stations.push(middleStation)
@@ -207,7 +204,8 @@ export class TramSystem implements ISystem {
     let endStation = new Station(
       { position: station3Position },
       this.orientation,
-      [this.cycleTime / 2 + this.waitTime],
+      [this.cycleTime / 2 +  this.waitTime],
+      this.waitTime,
       this.cycleTime
     )
     this.stations.push(endStation)

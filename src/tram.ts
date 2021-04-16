@@ -33,7 +33,7 @@ export class Tram extends Entity {
 
     this.orientation = orientation
 
-    let trainSound = new AudioClip('sound/train.mp3')
+    let trainSound = new AudioClip('sounds/train.mp3')
 
     this.addComponent(new AudioSource(trainSound))
     //this.getComponent(AudioSource).playing = true

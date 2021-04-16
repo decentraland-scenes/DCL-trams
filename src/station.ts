@@ -5,13 +5,18 @@ let stationWindowsShape = new GLTFShape(
   'models/tram station/tramStation_windows.glb'
 )
 
-let posterTexture = new Texture('images/wtf.jpeg')
+let posterTexture = new Texture('images/wtf.jpg')
 export let posterMaterial = new Material()
 posterMaterial.albedoTexture = posterTexture
 posterMaterial.roughness = 1
 
 export let posterShape = new PlaneShape()
 posterShape.isPointerBlocker = true
+
+let bellSound = new AudioClip('sounds/train-bell.mp3')
+bellSound.volume = 0.7
+bellSound.loop = false
+
 
 export enum RoadOrientation {
   horizontal = 'horizontal',
@@ -30,6 +35,7 @@ export class Station extends Entity {
   timer8: Entity
   active: boolean
   arrivalTimes: number[] = []
+  waitTime: number
   cycleTime: number
   poster1: Entity
   poster2: Entity
@@ -39,6 +45,7 @@ export class Station extends Entity {
     transform: TransformConstructorArgs,
     Orientation: RoadOrientation,
     arrivalTimes: number[],
+    waitTime:number,
     cycleTime: number
     //double?: boolean
   ) {
@@ -50,6 +57,7 @@ export class Station extends Entity {
     this.active = false
     this.arrivalTimes = arrivalTimes
     this.cycleTime = cycleTime
+    this.waitTime = waitTime
 
     if (Orientation == RoadOrientation.horizontal) {
       this.getComponent(Transform).rotation = Quaternion.Euler(0, 270, 0)
@@ -73,6 +81,8 @@ export class Station extends Entity {
       })
     )
     this.timer1.setParent(this)
+
+    this.addComponent(new AudioSource(bellSound))
 
     this.timer2 = new Entity()
     this.timer2.addComponent(new TextShape('0:00'))
@@ -165,6 +175,8 @@ export class Station extends Entity {
       this.station2.getComponent(Transform).position.z += 1
     }
     engine.addEntity(this.station2)
+
+    this.station2.addComponent(new AudioSource(bellSound))
 
     let windows2 = new Entity()
     windows2.setParent(this.station2)
@@ -275,12 +287,40 @@ export class Station extends Entity {
       }
     }
 
-    let numberText = secondsToText(timeLeft)
+    if(timeLeft<this.waitTime){
 
-    this.timer1.getComponent(TextShape).value = numberText
-    this.timer2.getComponent(TextShape).value = numberText
-    this.timer3.getComponent(TextShape).value = numberText
-    this.timer4.getComponent(TextShape).value = numberText
+      this.timer1.getComponent(TextShape).fontSize = 3
+      this.timer2.getComponent(TextShape).fontSize =  3
+      this.timer3.getComponent(TextShape).fontSize =  3
+      this.timer4.getComponent(TextShape).fontSize =  3
+
+      this.timer1.getComponent(TextShape).value = "DEPARTING"
+      this.timer2.getComponent(TextShape).value =  "DEPARTING"
+      this.timer3.getComponent(TextShape).value =  "DEPARTING"
+      this.timer4.getComponent(TextShape).value =  "DEPARTING"
+
+      if(timeLeft<7 && Math.floor( timeLeft +1)%2 == 0){
+        this.getComponent(AudioSource).playOnce()
+      }
+
+    
+    } else {
+      let numberText = secondsToText(timeLeft)
+
+      this.timer1.getComponent(TextShape).value = numberText
+      this.timer2.getComponent(TextShape).value = numberText
+      this.timer3.getComponent(TextShape).value = numberText
+      this.timer4.getComponent(TextShape).value = numberText
+
+      this.timer1.getComponent(TextShape).fontSize = 5
+      this.timer2.getComponent(TextShape).fontSize =  5
+      this.timer3.getComponent(TextShape).fontSize =  5
+      this.timer4.getComponent(TextShape).fontSize =  5
+
+      
+    }
+
+  
 
     if (this.station2) {
       let timeLeftTram2: number
@@ -290,12 +330,39 @@ export class Station extends Entity {
         timeLeftTram2 = (timeLeft + this.cycleTime / 2) % this.cycleTime
       }
 
-      let numberText2 = secondsToText(timeLeftTram2)
 
-      this.timer5.getComponent(TextShape).value = numberText2
-      this.timer6.getComponent(TextShape).value = numberText2
-      this.timer7.getComponent(TextShape).value = numberText2
-      this.timer8.getComponent(TextShape).value = numberText2
+      if(timeLeftTram2<this.waitTime){
+
+        this.timer5.getComponent(TextShape).fontSize = 3
+        this.timer6.getComponent(TextShape).fontSize =  3
+        this.timer7.getComponent(TextShape).fontSize =  3
+        this.timer8.getComponent(TextShape).fontSize =  3
+
+        this.timer5.getComponent(TextShape).value = "DEPARTING"
+        this.timer6.getComponent(TextShape).value = "DEPARTING"
+        this.timer7.getComponent(TextShape).value = "DEPARTING"
+        this.timer8.getComponent(TextShape).value = "DEPARTING"
+
+        if(timeLeftTram2<7 && Math.floor(timeLeftTram2 +1)%2 == 0){
+          this.station2.getComponent(AudioSource).playOnce()
+        }
+
+      } else {
+
+        let numberText2 = secondsToText(timeLeftTram2)
+
+        this.timer5.getComponent(TextShape).value = numberText2
+        this.timer6.getComponent(TextShape).value = numberText2
+        this.timer7.getComponent(TextShape).value = numberText2
+        this.timer8.getComponent(TextShape).value = numberText2
+
+        this.timer5.getComponent(TextShape).fontSize = 5
+        this.timer6.getComponent(TextShape).fontSize =  5
+        this.timer7.getComponent(TextShape).fontSize =  5
+        this.timer8.getComponent(TextShape).fontSize =  5
+      }
+
+     
     }
   }
 }

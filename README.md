@@ -2,7 +2,9 @@
 
 _demo of a long-distance public transport tram._
 
-<!-- ![demo](https://github.com/decentraland-scenes/coin-pickup/blob/master/screenshots/coin-pickup.gif) -->
+
+
+![demo](https://github.com/decentraland-scenes/DCL-trams/blob/master/screenshot/screenshot.png) 
 
 ## Description
 
