@@ -51,8 +51,12 @@ export class TramSystem implements ISystem {
   initialOffset: number = 16
   stations: Station[] = []
   segments: trackSegment[] = []
+  timeOffset: number = 0
   async activate() {
     let currenTime = await checkTime()
+
+    currenTime += this.timeOffset
+
     this.time = currenTime % this.cycleTime
     this.addTrams()
   }
@@ -129,7 +133,8 @@ export class TramSystem implements ISystem {
     waitTime: number,
     stations: number,
     orientation: RoadOrientation,
-    parcelLength: number
+    parcelLength: number,
+    timeOffset?: number
   ) {
     this.cycleTime = cycleTime
     this.waitTime = waitTime
@@ -139,6 +144,9 @@ export class TramSystem implements ISystem {
     this.distance = parcelLength * 16
 
     this.orientation = orientation
+    if (timeOffset) {
+      this.timeOffset = timeOffset
+    }
 
     //this.activate()
 
