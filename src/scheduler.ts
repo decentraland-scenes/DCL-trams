@@ -36,15 +36,16 @@ type trackSegment = {
 }
 
 export class TramSystem implements ISystem {
+  //ready: boolean = false
   time: number = 0
-  millisecondsTimer: number =0
+  millisecondsTimer: number = 0
   cycleTime: number
   waitTime: number
   stationCount: number
   //segments: number
   timeInMotion: number
-  tram1: Tram
-  tram2: Tram
+  tram1: Tram | null = null
+  tram2: Tram | null = null
   distance: number
   orientation: RoadOrientation
   initialOffset: number = 16
@@ -53,8 +54,10 @@ export class TramSystem implements ISystem {
   async activate() {
     let currenTime = await checkTime()
     this.time = currenTime % this.cycleTime
+    this.addTrams()
   }
   async update(dt: number) {
+    if (!this.tram1 || !this.tram2) return
     this.time += dt
     this.millisecondsTimer += dt
 
@@ -91,8 +94,6 @@ export class TramSystem implements ISystem {
     let distanceFromStart =
       segment.start + extraPortion * (segment.end - segment.start)
 
- 
-
     if (extraPortion == 0) {
       this.tram1.stopSound()
       this.tram2.stopSound()
@@ -114,7 +115,7 @@ export class TramSystem implements ISystem {
         this.distance - distanceFromStart + this.initialOffset * 2
     }
 
-    if(this.millisecondsTimer > 1){
+    if (this.millisecondsTimer > 1) {
       this.millisecondsTimer = 0
       for (let station of this.stations) {
         if (station.active) {
@@ -122,7 +123,6 @@ export class TramSystem implements ISystem {
         }
       }
     }
-  
   }
   constructor(
     cycleTime: number,
@@ -140,43 +140,24 @@ export class TramSystem implements ISystem {
 
     this.orientation = orientation
 
-    let tram1Position: Vector3
-    let tram2Position: Vector3
+    //this.activate()
 
     let station1Position: Vector3
-    let station2Position: Vector3
+    // let station2Position: Vector3
     let station3Position: Vector3
 
-    if (orientation == RoadOrientation.horizontal) {
-      tram1Position = new Vector3(16, 0, 22.5)
-      tram2Position = new Vector3(16, 0, 9.5)
+    if (this.orientation == RoadOrientation.horizontal) {
       station1Position = new Vector3(16, 0, 34.05)
       station3Position = new Vector3(16 + this.distance, 0, 34.05)
     } else {
-      tram1Position = new Vector3(22.5, 0, 16)
-      tram2Position = new Vector3(9.5, 0, 16)
       station1Position = new Vector3(34.05, 0, 16)
       station3Position = new Vector3(34.05, 0, 16 + this.distance)
     }
 
-    this.tram1 = new Tram(
-      {
-        position: tram1Position,
-      },
-      this.orientation
-    )
-
-    this.tram2 = new Tram(
-      {
-        position: tram2Position,
-      },
-      this.orientation
-    )
-
     let startStation = new Station(
       { position: station1Position },
       this.orientation,
-      [0 +  this.waitTime],
+      [0 + this.waitTime],
       this.waitTime,
       this.cycleTime
     )
@@ -187,13 +168,21 @@ export class TramSystem implements ISystem {
         {
           position:
             this.orientation == RoadOrientation.horizontal
-              ? new Vector3(16 + this.distance / (stations - 1), 0, 34.05)
-              : new Vector3(34.05, 0, 16 + this.distance / (stations - 1)),
+              ? new Vector3(
+                  16 + this.distance / (this.stationCount - 1),
+                  0,
+                  34.05
+                )
+              : new Vector3(
+                  34.05,
+                  0,
+                  16 + this.distance / (this.stationCount - 1)
+                ),
         },
         this.orientation,
         [
-          this.cycleTime / 4+  this.waitTime,
-          (this.cycleTime / 4) * 3 +  this.waitTime,
+          this.cycleTime / 4 + this.waitTime,
+          (this.cycleTime / 4) * 3 + this.waitTime,
         ],
         this.waitTime,
         this.cycleTime
@@ -204,7 +193,7 @@ export class TramSystem implements ISystem {
     let endStation = new Station(
       { position: station3Position },
       this.orientation,
-      [this.cycleTime / 2 +  this.waitTime],
+      [this.cycleTime / 2 + this.waitTime],
       this.waitTime,
       this.cycleTime
     )
@@ -240,6 +229,34 @@ export class TramSystem implements ISystem {
     }
 
     log('SEGMENTS: ', this.segments)
+  }
+  addTrams() {
+    let tram1Position: Vector3
+    let tram2Position: Vector3
+
+    if (this.orientation == RoadOrientation.horizontal) {
+      tram1Position = new Vector3(16, 0, 22.5)
+      tram2Position = new Vector3(16, 0, 9.5)
+    } else {
+      tram1Position = new Vector3(22.5, 0, 16)
+      tram2Position = new Vector3(9.5, 0, 16)
+    }
+
+    this.tram1 = new Tram(
+      {
+        position: tram1Position,
+      },
+      this.orientation
+    )
+
+    this.tram2 = new Tram(
+      {
+        position: tram2Position,
+      },
+      this.orientation
+    )
+
+    //this.ready = true
   }
 }
 
