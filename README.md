@@ -4,7 +4,7 @@ _demo of a long-distance public transport tram._
 
 
 
-![demo](https://github.com/decentraland-scenes/DCL-trams/blob/master/screenshot/screenshot.png) 
+![demo](screenshot/screenshot.png) 
 
 ## Description
 
