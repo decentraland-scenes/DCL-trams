@@ -4,12 +4,14 @@ import { CurveType, easingConverter } from './tween'
 
 //function to call the API
 export async function checkTime(): Promise<number> {
-  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt+3'
+  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt'
 
   try {
     let response = await fetch(url)
+    log('GOT RESPONSE, ', response)
     let json = await response.json()
-    let toDate = new Date(json.datetime)
+    log('JSON: ', json)
+    let toDate = new Date(json.utc_datetime)
     log(toDate)
 
     let milliSeconds =
@@ -24,7 +26,9 @@ export async function checkTime(): Promise<number> {
     //return seconds
   } catch (e) {
     log('error getting time data ', e)
-    return 0
+    let milliSeconds = Date.now()
+
+    return milliSeconds / 1000
   }
 }
 
@@ -52,14 +56,6 @@ export class TramSystem implements ISystem {
   stations: Station[] = []
   segments: trackSegment[] = []
   timeOffset: number = 0
-  async activate() {
-    let currenTime = await checkTime()
-
-    currenTime += this.timeOffset
-
-    this.time = currenTime % this.cycleTime
-    this.addTrams()
-  }
   async update(dt: number) {
     if (!this.tram1 || !this.tram2) return
     this.time += dt
@@ -265,6 +261,13 @@ export class TramSystem implements ISystem {
     )
 
     //this.ready = true
+  }
+  async updateTime() {
+    let currenTime = await checkTime()
+
+    currenTime += this.timeOffset
+
+    this.time = currenTime % this.cycleTime
   }
 }
 

@@ -1,5 +1,5 @@
 import { addRoad, RoadType } from './roads'
-import { TramSystem } from './scheduler'
+import { checkTime, TramSystem } from './scheduler'
 import { RoadOrientation } from './station'
 import { setTramType, TranType } from './tram'
 
@@ -10,7 +10,7 @@ Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
 
 let sceneOrientation: RoadOrientation = RoadOrientation.vertical
 
-let trackLength: number = 58
+let trackLength: number = 57
 
 let stationCount: number = 3
 
@@ -57,6 +57,24 @@ addRoad(trackLength + 2, sceneOrientation, exceptions)
 //   }
 // })
 
-engine.addSystem(
-  new TramSystem(cycleTime, 10, stationCount, sceneOrientation, trackLength)
+let tranSystem = new TramSystem(
+  cycleTime,
+  10,
+  stationCount,
+  sceneOrientation,
+  trackLength
 )
+
+engine.addSystem(tranSystem)
+
+// when scene finishes loading
+onSceneReadyObservable.add(async () => {
+  let currenTime = await checkTime()
+
+  log('GOT CURRENT TIME ', currenTime)
+
+  currenTime += tranSystem.timeOffset
+
+  tranSystem.time = currenTime % tranSystem.cycleTime
+  tranSystem.addTrams()
+})
