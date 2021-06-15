@@ -8,9 +8,9 @@ export async function checkTime(): Promise<number> {
 
   try {
     let response = await fetch(url)
-    log('GOT RESPONSE, ', response)
+    // log('GOT RESPONSE, ', response)
     let json = await response.json()
-    log('JSON: ', json)
+    // log('JSON: ', json)
     let toDate = new Date(json.utc_datetime)
     log(toDate)
 
@@ -85,6 +85,7 @@ export class TramSystem implements ISystem {
         this.time = 0
         currentSegment = 0
         extraPortion = 0
+        this.updateTime()
         break
       }
     }
