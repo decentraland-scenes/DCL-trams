@@ -17,7 +17,6 @@ let bellSound = new AudioClip('sounds/train-bell.mp3')
 bellSound.volume = 0.7
 bellSound.loop = false
 
-
 export enum RoadOrientation {
   horizontal = 'horizontal',
   vertical = 'vertical',
@@ -45,7 +44,7 @@ export class Station extends Entity {
     transform: TransformConstructorArgs,
     Orientation: RoadOrientation,
     arrivalTimes: number[],
-    waitTime:number,
+    waitTime: number,
     cycleTime: number
     //double?: boolean
   ) {
@@ -287,23 +286,20 @@ export class Station extends Entity {
       }
     }
 
-    if(timeLeft<this.waitTime){
-
+    if (timeLeft < this.waitTime) {
       this.timer1.getComponent(TextShape).fontSize = 3
-      this.timer2.getComponent(TextShape).fontSize =  3
-      this.timer3.getComponent(TextShape).fontSize =  3
-      this.timer4.getComponent(TextShape).fontSize =  3
+      this.timer2.getComponent(TextShape).fontSize = 3
+      this.timer3.getComponent(TextShape).fontSize = 3
+      this.timer4.getComponent(TextShape).fontSize = 3
 
-      this.timer1.getComponent(TextShape).value = "DEPARTING"
-      this.timer2.getComponent(TextShape).value =  "DEPARTING"
-      this.timer3.getComponent(TextShape).value =  "DEPARTING"
-      this.timer4.getComponent(TextShape).value =  "DEPARTING"
+      this.timer1.getComponent(TextShape).value = 'DEPARTING'
+      this.timer2.getComponent(TextShape).value = 'DEPARTING'
+      this.timer3.getComponent(TextShape).value = 'DEPARTING'
+      this.timer4.getComponent(TextShape).value = 'DEPARTING'
 
-      if(timeLeft<7 && Math.floor( timeLeft +1)%2 == 0){
+      if (timeLeft < 7 && Math.floor(timeLeft + 1) % 2 == 0) {
         this.getComponent(AudioSource).playOnce()
       }
-
-    
     } else {
       let numberText = secondsToText(timeLeft)
 
@@ -313,14 +309,10 @@ export class Station extends Entity {
       this.timer4.getComponent(TextShape).value = numberText
 
       this.timer1.getComponent(TextShape).fontSize = 5
-      this.timer2.getComponent(TextShape).fontSize =  5
-      this.timer3.getComponent(TextShape).fontSize =  5
-      this.timer4.getComponent(TextShape).fontSize =  5
-
-      
+      this.timer2.getComponent(TextShape).fontSize = 5
+      this.timer3.getComponent(TextShape).fontSize = 5
+      this.timer4.getComponent(TextShape).fontSize = 5
     }
-
-  
 
     if (this.station2) {
       let timeLeftTram2: number
@@ -330,25 +322,21 @@ export class Station extends Entity {
         timeLeftTram2 = (timeLeft + this.cycleTime / 2) % this.cycleTime
       }
 
-
-      if(timeLeftTram2<this.waitTime){
-
+      if (timeLeftTram2 < this.waitTime) {
         this.timer5.getComponent(TextShape).fontSize = 3
-        this.timer6.getComponent(TextShape).fontSize =  3
-        this.timer7.getComponent(TextShape).fontSize =  3
-        this.timer8.getComponent(TextShape).fontSize =  3
+        this.timer6.getComponent(TextShape).fontSize = 3
+        this.timer7.getComponent(TextShape).fontSize = 3
+        this.timer8.getComponent(TextShape).fontSize = 3
 
-        this.timer5.getComponent(TextShape).value = "DEPARTING"
-        this.timer6.getComponent(TextShape).value = "DEPARTING"
-        this.timer7.getComponent(TextShape).value = "DEPARTING"
-        this.timer8.getComponent(TextShape).value = "DEPARTING"
+        this.timer5.getComponent(TextShape).value = 'DEPARTING'
+        this.timer6.getComponent(TextShape).value = 'DEPARTING'
+        this.timer7.getComponent(TextShape).value = 'DEPARTING'
+        this.timer8.getComponent(TextShape).value = 'DEPARTING'
 
-        if(timeLeftTram2<7 && Math.floor(timeLeftTram2 +1)%2 == 0){
+        if (timeLeftTram2 < 7 && Math.floor(timeLeftTram2 + 1) % 2 == 0) {
           this.station2.getComponent(AudioSource).playOnce()
         }
-
       } else {
-
         let numberText2 = secondsToText(timeLeftTram2)
 
         this.timer5.getComponent(TextShape).value = numberText2
@@ -357,12 +345,10 @@ export class Station extends Entity {
         this.timer8.getComponent(TextShape).value = numberText2
 
         this.timer5.getComponent(TextShape).fontSize = 5
-        this.timer6.getComponent(TextShape).fontSize =  5
-        this.timer7.getComponent(TextShape).fontSize =  5
-        this.timer8.getComponent(TextShape).fontSize =  5
+        this.timer6.getComponent(TextShape).fontSize = 5
+        this.timer7.getComponent(TextShape).fontSize = 5
+        this.timer8.getComponent(TextShape).fontSize = 5
       }
-
-     
     }
   }
 }

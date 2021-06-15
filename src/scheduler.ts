@@ -4,12 +4,14 @@ import { CurveType, easingConverter } from './tween'
 
 //function to call the API
 export async function checkTime(): Promise<number> {
-  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt+3'
+  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt'
 
   try {
     let response = await fetch(url)
+    // log('GOT RESPONSE, ', response)
     let json = await response.json()
-    let toDate = new Date(json.datetime)
+    // log('JSON: ', json)
+    let toDate = new Date(json.utc_datetime)
     log(toDate)
 
     let milliSeconds =
@@ -24,7 +26,9 @@ export async function checkTime(): Promise<number> {
     //return seconds
   } catch (e) {
     log('error getting time data ', e)
-    return 0
+    let milliSeconds = Date.now()
+
+    return milliSeconds / 1000
   }
 }
 
@@ -51,11 +55,7 @@ export class TramSystem implements ISystem {
   initialOffset: number = 16
   stations: Station[] = []
   segments: trackSegment[] = []
-  async activate() {
-    let currenTime = await checkTime()
-    this.time = currenTime % this.cycleTime
-    this.addTrams()
-  }
+  timeOffset: number = 0
   async update(dt: number) {
     if (!this.tram1 || !this.tram2) return
     this.time += dt
@@ -85,6 +85,7 @@ export class TramSystem implements ISystem {
         this.time = 0
         currentSegment = 0
         extraPortion = 0
+        this.updateTime()
         break
       }
     }
@@ -129,7 +130,8 @@ export class TramSystem implements ISystem {
     waitTime: number,
     stations: number,
     orientation: RoadOrientation,
-    parcelLength: number
+    parcelLength: number,
+    timeOffset?: number
   ) {
     this.cycleTime = cycleTime
     this.waitTime = waitTime
@@ -139,6 +141,9 @@ export class TramSystem implements ISystem {
     this.distance = parcelLength * 16
 
     this.orientation = orientation
+    if (timeOffset) {
+      this.timeOffset = timeOffset
+    }
 
     //this.activate()
 
@@ -257,6 +262,13 @@ export class TramSystem implements ISystem {
     )
 
     //this.ready = true
+  }
+  async updateTime() {
+    let currenTime = await checkTime()
+
+    currenTime += this.timeOffset
+
+    this.time = currenTime % this.cycleTime
   }
 }
 
