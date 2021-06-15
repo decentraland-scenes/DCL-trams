@@ -14,16 +14,16 @@ let trackLength: number = 57
 
 let stationCount: number = 3
 
-let cycleTime: number = 250 //180 //(56 / 180) * trackLength
+let cycleTime: number = 350 //180 //(56 / 180) * trackLength
 
 let exceptions: RoadType[] = []
 
-exceptions[39] = RoadType.WROADBOTH2
-exceptions[38] = RoadType.WROADBOTH1
+exceptions[40] = RoadType.WROADBOTH2
+exceptions[39] = RoadType.WROADBOTH1
 
-exceptions[20] = RoadType.ROADLEFT
+exceptions[21] = RoadType.ROADLEFT
 
-exceptions[14] = RoadType.ROADLEFT
+exceptions[15] = RoadType.ROADLEFT
 
 // exceptions[6] = RoadType.ROADLEFT
 
