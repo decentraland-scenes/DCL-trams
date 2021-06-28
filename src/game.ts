@@ -46,8 +46,6 @@ exceptions[15] = RoadType.ROADLEFT
 
 setTramType(TranType.forest)
 
-addRoad(trackLength + 2, sceneOrientation, exceptions)
-
 // Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, true, (e) => {
 //   if (e.hit) {
 //     console.log(
@@ -66,6 +64,8 @@ let tranSystem = new TramSystem(
 )
 
 engine.addSystem(tranSystem)
+
+addRoad(trackLength + 2, sceneOrientation, exceptions)
 
 // when scene finishes loading
 onSceneReadyObservable.add(async () => {
