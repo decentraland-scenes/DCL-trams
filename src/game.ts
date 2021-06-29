@@ -10,7 +10,7 @@ Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
 
 let sceneOrientation: RoadOrientation = RoadOrientation.vertical
 
-let trackLength: number = 57
+let trackLength: number = 56
 
 let stationCount: number = 3
 
@@ -18,31 +18,19 @@ let cycleTime: number = 350 //180 //(56 / 180) * trackLength
 
 let exceptions: RoadType[] = []
 
-exceptions[40] = RoadType.WROADBOTH2
-exceptions[39] = RoadType.WROADBOTH1
+exceptions[56] = RoadType.ROADRIGHT
 
-exceptions[21] = RoadType.ROADLEFT
+exceptions[53] = RoadType.ROADRIGHT
 
-exceptions[15] = RoadType.ROADLEFT
+exceptions[50] = RoadType.ROADRIGHT
 
-// exceptions[6] = RoadType.ROADLEFT
+exceptions[47] = RoadType.ROADRIGHT
 
-// exceptions[15] = RoadType.ROADBOTH
-// exceptions[11] = RoadType.WROADRIGHT2
+exceptions[20] = RoadType.WROADBOTH2
+exceptions[19] = RoadType.WROADBOTH1
+exceptions[13] = RoadType.ROADBOTH
 
-// exceptions[21] = RoadType.WROADBOTH1
-// exceptions[22] = RoadType.WROADBOTH2
-
-// exceptions[32] = RoadType.STATION
-// exceptions[33] = RoadType.STATION
-// exceptions[34] = RoadType.STATION
-
-// exceptions[50] = RoadType.WROADBOTH1
-// exceptions[51] = RoadType.WROADBOTH2
-
-// exceptions[53] = RoadType.ROADRIGHT
-// exceptions[56] = RoadType.ROADRIGHT
-// exceptions[59] = RoadType.ROADRIGHT
+exceptions[6] = RoadType.ROADBOTH
 
 setTramType(TranType.forest)
 
