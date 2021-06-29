@@ -8,9 +8,9 @@ Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
   log(`rot: `, Camera.instance.rotation)
 })
 
-let sceneOrientation: RoadOrientation = RoadOrientation.vertical
+let sceneOrientation: RoadOrientation = RoadOrientation.horizontal
 
-let trackLength: number = 56
+let trackLength: number = 55
 
 let stationCount: number = 3
 
@@ -18,21 +18,18 @@ let cycleTime: number = 350 //180 //(56 / 180) * trackLength
 
 let exceptions: RoadType[] = []
 
-exceptions[56] = RoadType.ROADRIGHT
+exceptions[3] = RoadType.ROADLEFT
 
-exceptions[53] = RoadType.ROADRIGHT
+exceptions[6] = RoadType.ROADLEFT
 
-exceptions[50] = RoadType.ROADRIGHT
+exceptions[9] = RoadType.ROADLEFT
 
-exceptions[47] = RoadType.ROADRIGHT
+exceptions[12] = RoadType.ROADLEFT
 
-exceptions[20] = RoadType.WROADBOTH2
-exceptions[19] = RoadType.WROADBOTH1
-exceptions[13] = RoadType.ROADBOTH
+exceptions[38] = RoadType.WROADBOTH2
+exceptions[39] = RoadType.WROADBOTH1
 
-exceptions[6] = RoadType.ROADBOTH
-
-setTramType(TranType.forest)
+setTramType(TranType.genesis)
 
 // Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, true, (e) => {
 //   if (e.hit) {
