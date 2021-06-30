@@ -26,8 +26,8 @@ exceptions[9] = RoadType.ROADLEFT
 
 exceptions[12] = RoadType.ROADLEFT
 
-exceptions[38] = RoadType.WROADBOTH2
-exceptions[39] = RoadType.WROADBOTH1
+exceptions[38] = RoadType.WROADBOTH1
+exceptions[39] = RoadType.WROADBOTH2
 
 setTramType(TranType.genesis)
 
