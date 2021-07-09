@@ -4,7 +4,8 @@ import { CurveType, easingConverter } from './tween'
 
 //function to call the API
 export async function checkTime(): Promise<number> {
-  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt'
+  //ensure cache busting
+  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt?unique='+Date.now()
 
   try {
     //tracking time to account for time take to make api call (network latency)
