@@ -7,11 +7,22 @@ export async function checkTime(): Promise<number> {
   let url = 'https://worldtimeapi.org/api/timezone/etc/gmt'
 
   try {
+    //tracking time to account for time take to make api call (network latency)
+    let startTime = Date.now();
     let response = await fetch(url)
+    //capture time it took to return
+    let endTime = Date.now();
     // log('GOT RESPONSE, ', response)
     let json = await response.json()
     // log('JSON: ', json)
     let toDate = new Date(json.utc_datetime)
+
+    //adjust for time taken to fetch from api (network latency)
+    let fetchTime = endTime-startTime;
+    if(fetchTime > 0){
+      toDate.setTime( toDate.getTime() + fetchTime )
+    }
+
     log(toDate)
 
     let milliSeconds =
