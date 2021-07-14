@@ -4,7 +4,8 @@ import { CurveType, easingConverter } from './tween'
 
 //function to call the API
 export async function checkTime(): Promise<number> {
-  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt'
+  //ensure cache busting
+  let url = 'https://worldtimeapi.org/api/timezone/etc/gmt?unique='+Date.now()
 
   try {
     //tracking time to account for time take to make api call (network latency)
@@ -20,7 +21,13 @@ export async function checkTime(): Promise<number> {
     //adjust for time taken to fetch from api (network latency)
     let fetchTime = endTime-startTime;
     if(fetchTime > 0){
-      toDate.setTime( toDate.getTime() + fetchTime )
+      //this is not going to be perfect.  must account for only the time to return
+      //not the time to get there as the api will return "now" relative to when it gets
+      //there is 1-time to get to server, 2-time for server to processs, 
+      //3-time for server to reply,4 client side threading risk pausing at a bad time to compute times
+      //best can do is assume roughly even time there + time back and it all averages out
+      //so will divide by 2
+      toDate.setTime( toDate.getTime() + (fetchTime/2) )
     }
 
     log(toDate)
