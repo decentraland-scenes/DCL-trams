@@ -52,3 +52,7 @@ onSceneReadyObservable.add(async () => {
   tranSystem.time = currenTime % tranSystem.cycleTime
   tranSystem.addTrams()
 })
+
+
+
+// posters are 13 x 26
