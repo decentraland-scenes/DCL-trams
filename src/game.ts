@@ -21,6 +21,10 @@ let exceptions: RoadType[] = []
 exceptions[40] = RoadType.WROADBOTH2
 exceptions[39] = RoadType.WROADBOTH1
 
+
+exceptions[31] = RoadType.STATION
+exceptions[30] = RoadType.STATION
+
 exceptions[21] = RoadType.ROADLEFT
 
 exceptions[15] = RoadType.ROADLEFT
