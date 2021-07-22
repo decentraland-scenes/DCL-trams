@@ -5,10 +5,12 @@ let stationWindowsShape = new GLTFShape(
   'models/tram station/tramStation_windows.glb'
 )
 
-let posterTexture = new Texture('images/wtf.jpg')
+let posterTexture = new Texture('images/image.png')
 export let posterMaterial = new Material()
 posterMaterial.albedoTexture = posterTexture
-posterMaterial.roughness = 1
+posterMaterial.roughness = 0.9
+posterMaterial.metallic = 0
+
 
 export let posterShape = new PlaneShape()
 posterShape.isPointerBlocker = true
@@ -72,8 +74,8 @@ export class Station extends Entity {
     windows.addComponent(new Transform())
 
     this.timer1 = new Entity()
-    this.timer1.addComponent(new TextShape('0:00'))
-    this.timer1.getComponent(TextShape).fontSize = 5
+    this.timer1.addComponent(new TextShape('COMING SOON'))
+    this.timer1.getComponent(TextShape).fontSize = 3
     this.timer1.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, -6.5),
@@ -84,8 +86,8 @@ export class Station extends Entity {
     this.addComponent(new AudioSource(bellSound))
 
     this.timer2 = new Entity()
-    this.timer2.addComponent(new TextShape('0:00'))
-    this.timer2.getComponent(TextShape).fontSize = 5
+    this.timer2.addComponent(new TextShape('COMING SOON'))
+    this.timer2.getComponent(TextShape).fontSize = 3
     this.timer2.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, 6.5),
@@ -95,8 +97,8 @@ export class Station extends Entity {
     this.timer2.setParent(this)
 
     this.timer3 = new Entity()
-    this.timer3.addComponent(new TextShape('0:00'))
-    this.timer3.getComponent(TextShape).fontSize = 5
+    this.timer3.addComponent(new TextShape('COMING SOON'))
+    this.timer3.getComponent(TextShape).fontSize = 3
     this.timer3.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, -6.4),
@@ -106,8 +108,8 @@ export class Station extends Entity {
     this.timer3.setParent(this)
 
     this.timer4 = new Entity()
-    this.timer4.addComponent(new TextShape('0:00'))
-    this.timer4.getComponent(TextShape).fontSize = 5
+    this.timer4.addComponent(new TextShape('COMING SOON'))
+    this.timer4.getComponent(TextShape).fontSize = 3
     this.timer4.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, 6.4),
@@ -183,8 +185,8 @@ export class Station extends Entity {
     windows2.addComponent(new Transform())
 
     this.timer5 = new Entity()
-    this.timer5.addComponent(new TextShape('0:00'))
-    this.timer5.getComponent(TextShape).fontSize = 5
+    this.timer5.addComponent(new TextShape('COMING SOON'))
+    this.timer5.getComponent(TextShape).fontSize = 3
     this.timer5.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, -6.5),
@@ -193,8 +195,8 @@ export class Station extends Entity {
     this.timer5.setParent(this.station2)
 
     this.timer6 = new Entity()
-    this.timer6.addComponent(new TextShape('0:00'))
-    this.timer6.getComponent(TextShape).fontSize = 5
+    this.timer6.addComponent(new TextShape('COMING SOON'))
+    this.timer6.getComponent(TextShape).fontSize = 3
     this.timer6.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, 6.5),
@@ -204,8 +206,8 @@ export class Station extends Entity {
     this.timer6.setParent(this.station2)
 
     this.timer7 = new Entity()
-    this.timer7.addComponent(new TextShape('0:00'))
-    this.timer7.getComponent(TextShape).fontSize = 5
+    this.timer7.addComponent(new TextShape('COMING SOON'))
+    this.timer7.getComponent(TextShape).fontSize = 3
     this.timer7.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, -6.4),
@@ -215,8 +217,8 @@ export class Station extends Entity {
     this.timer7.setParent(this.station2)
 
     this.timer8 = new Entity()
-    this.timer8.addComponent(new TextShape('0:00'))
-    this.timer8.getComponent(TextShape).fontSize = 5
+    this.timer8.addComponent(new TextShape('COMING SOON'))
+    this.timer8.getComponent(TextShape).fontSize = 3
     this.timer8.addComponent(
       new Transform({
         position: new Vector3(0, 5.1, 6.4),
