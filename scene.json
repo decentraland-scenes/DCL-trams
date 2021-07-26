@@ -1,12 +1,12 @@
 {
   "display": {
-    "title": "interactive-text",
+    "title": "Tram Line",
     "description": "Decentraland's public transport system",
     "navmapThumbnail": "screenshot/screenshot.png",
     "favicon": "favicon_asset"
   },
   "contact": {
-    "name": "author-name",
+    "name": "Decentraland Foundation",
     "email": ""
   },
   "owner": "",
